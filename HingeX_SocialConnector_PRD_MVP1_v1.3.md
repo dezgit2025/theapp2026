@@ -1,6 +1,6 @@
 # PRD — HingeX Social Connector (MVP1)
 
-**Version:** v1.2 (Primary Feature I: Geo-Movement Matching + Professional Verification Tiers)
+**Version:** v1.3 (Simplified Authentic Profiles + Anti-Curation Brand Voice)
 **Date:** 2026-02-16
 **Launch markets (Wave 1):** New York City metro + Southern California metro  
 **Audience:** 18+ (friends + dating)  
@@ -15,13 +15,15 @@
 **Core loop:**
 Create a simple profile (2-3 photos, a quote, one activity) → **go out and move** → discover people within 1 mile who are also out → like their profile → mutual match (24h window) → chat → meet at a public location.
 
-**Key differentiator (MVP1) — Two pillars:**
+**Key differentiator — Three pillars:**
 
-**Primary Feature I: Geo-Movement Matching** — Users can **only** discover and match with others by physically going out and moving within proximity (default: 1 mile). No couch swiping. The app rewards real-world movement with connection opportunities that **expire in 24 hours**, creating urgency and authenticity. Combined with a lightweight **Status / Catchline** ("Tonight I'm…") to signal intent.
+**Primary Feature I: Geo-Movement Matching (MVP1)** — Users can **only** discover and match with others by physically going out and moving within proximity (default: 1 mile). No couch swiping. The app rewards real-world movement with connection opportunities that **expire in 24 hours**, creating urgency and authenticity. Combined with a lightweight **Status / Catchline** ("Tonight I'm…") to signal intent.
 
-**Primary Feature II: Professional Verification** — Optional Blind-style work email verification and LinkedIn validation that surfaces real professional identity (title, company) as trust signals. Three tiers (Silver / Gold / Platinum) at accessible annual pricing — no major dating app offers verified professional credentials outside The League ($300+/mo). Verified profiles see higher match and response rates, and verified users can filter to only see other verified users, cutting spam.
+**Primary Feature II: Professional Verification (MVP1)** — Optional Blind-style work email verification and LinkedIn validation that surfaces real professional identity (title, company) as trust signals. Three tiers (Silver / Gold / Platinum) at accessible annual pricing — no major dating app offers verified professional credentials outside The League ($300+/mo). Verified profiles see higher match and response rates, and verified users can filter to only see other verified users, cutting spam.
 
-> *"You don't find connections — you earn them by showing up. And you know who you're meeting."*
+**Primary Feature III: Vibe Map (Simulated in MVP1 · Live in Phase II+)** — Real-time crowd density heat map powered entirely by HingeX users' own GPS data — no third-party APIs. Solves "where's the party at?" — Google reviews are stale, but HingeX users are already out with location active. Waze-style dots on a map (1 dot = 3+ users) show which bars and restaurants are actually busy tonight. MVP1 ships a simulated version for investor demo; real user-powered data goes live in Phase II when user density supports it. Premium feature for paying users. Evolves into a nightlife marketplace (bar/restaurant deals, promoted listings) and eventually AR overlays with happy hour specials.
+
+> *"You don't find connections — you earn them by showing up. You know who you're meeting. And you always know where the party's at."*
 
 ---
 
@@ -54,6 +56,7 @@ HingeX is the **anti-highlight-reel** dating app. While competitors encourage cu
 5. Prove value with **low-cost MVP**: validate activation, match-to-chat, and retention signals.
 6. **Validate geo-movement matching** as the primary discovery mechanism — users must physically go out and be within proximity to discover and connect.
 7. **Prove the "go out to connect" thesis** — measure whether movement-gated matching drives higher-quality conversations and meetup rates vs. traditional swiping.
+8. **Demo the Vibe Map concept** — ship a simulated crowd density heat map (Waze-style dots on a map) to validate the "where's the party at?" value prop with investors. Real user-powered data in Phase II.
 
 ### Non-goals (Out of scope for MVP1)
 - ~~Neighborhood selection or hyperlocal "areas"~~ → Replaced by geo-movement proximity
@@ -818,3 +821,195 @@ CREATE TABLE company_domains (
 - WebSocket infrastructure: Supabase Realtime vs. dedicated solution (Ably, Pusher) at scale?
 - Should Platinum verification include background check integration? (Legal and cost implications.)
 - LinkedIn data retention: how long can we cache title/company before requiring refresh?
+
+---
+
+## 13) Enhancements to Review
+
+> Proposed enhancements for future consideration. Not committed to any phase — pending review, prioritization, and user research validation.
+
+---
+
+### 13.1 Gamification — "The dating app that rewards you for leaving the house"
+
+#### Option S — "Go Out Streaks" (Low effort, ~2-3 days)
+*Candidate for: Phase I / MVP1*
+
+| Mechanic | How It Works |
+|----------|-------------|
+| **Outing Points** | Earn **10 pts** each time detected as active (moved 100m+). Max 1 claim per 4-hour window to prevent gaming. |
+| **Daily Streak** | Consecutive days going out → streak counter on profile. 3-day streak = **2x points**. 7-day = **3x points**. Miss a day = reset. |
+| **Weekly Reward** | 3+ outings in a week → earn **1 free Extend** (normally paid). Tangible reward tied to core matching loop. |
+| **Match Bonus** | +25 pts for mutual match. +50 pts for 4+ message exchange. Rewards real connection, not just showing up. |
+| **Profile badge** | Flame icon + streak count on Nearby Now card: 🔥7 = "7-day streak" |
+
+**Why it works:** Streak psychology is proven (Snapchat, Duolingo). Costs nothing extra — just a counter + a few DB columns. Free Extend ties gamification directly to the matching loop.
+
+---
+
+#### Option M — "Explorer Levels + Nightlife Multipliers" (Moderate effort, ~1 sprint)
+*Candidate for: Phase II (depends on H3 zone infrastructure)*
+
+| Mechanic | How It Works |
+|----------|-------------|
+| **Zone Discovery** | First time entering a new H3 zone = **25 pts** + "New Zone!" animation. 10 unique zones = **Bronze Explorer**. 25 = **Silver**. 50 = **Gold**. |
+| **Time Multipliers** | Happy Hour (5-8pm): **1.5x** points. Night Out (8pm-2am Fri/Sat): **2x** points. Weekend Brunch (10am-2pm Sat/Sun): **1.5x** points. Rewards the times people actually want to meet. |
+| **Explorer Level** | Total points → level (1-50). Shown on profile. Higher levels = small boost in Nearby Now ranking. |
+| **Weekly Challenges** | Auto-generated: *"Visit 3 new zones this week"* (+100 pts), *"Go out on a weeknight"* (+50 pts), *"Match with someone in a new zone"* (+75 pts). |
+| **Points Store** | Spend points on: free Extends (200 pts), Re-discover expired connection (500 pts), priority Nearby Now placement for 1 hour (300 pts). |
+
+**Why it works:** Zone discovery creates an exploration game on top of dating. Time multipliers push users out when venues are active. Points store gives a reason to accumulate without spending real money.
+
+---
+
+#### Option L — "Social Quests + Crew Mode" (High effort, ~3-4 sprints)
+*Candidate for: Phase III*
+
+| Mechanic | How It Works |
+|----------|-------------|
+| **Weekly Quests** | Multi-step challenges: *"The Explorer: Visit 5 zones → Match → Exchange 10 messages → Suggest a meetup"* = **500 pts** + exclusive badge. Rotate weekly. |
+| **Crew Mode** | Form a crew (2-5 friends). Collective crew points. Crew challenges: *"Your crew explored 15 zones this week — top 10% in NYC!"*. Crew leaderboard. Crews can "claim" zones they visit most. |
+| **Seasonal Events** | Monthly themes: *"Summer Night Challenge"* (3x for outings after 9pm), *"Brunch Marathon"* (points for 4 weekend brunches in a row). Limited-edition profile badges. |
+| **Interaction Rewards** | *"Great Conversationalist"* — voted by 3+ matches. *"Always Shows Up"* — confirmed 3+ meetups. *"Connector"* — introduced 2 friends who matched. Permanent badges earned through behavior, not self-curation. |
+| **Zone Leaderboard** | *"Top Explorer in Williamsburg this week"* — opt-in per-zone leaderboard. Top 3 get highlighted placement in that zone's Nearby Now the following week. |
+| **Points Tiers** | Lifetime accumulation: **Newcomer** (0-500) → **Regular** (500-2K) → **Explorer** (2K-10K) → **Legend** (10K+). Legend = permanent profile flair + priority in all zones. |
+
+**Why it works:** Crew Mode turns dating-app-awkwardness into a group activity ("let's go out and earn points together"). Interaction rewards mean your profile improves the more genuinely you engage — the ultimate anti-fake mechanic. Seasonal events drive retention spikes.
+
+**Recommendation:** Ship Option S with MVP1 (streaks + outing points create immediate habit loops). Plan Option M for Phase II when H3 zones land. Option L is the long-term retention moat.
+
+---
+
+### 13.2 Primary Feature III — "Vibe Map": Real-Time Crowd Density + Nightlife Discovery
+
+> **Problem:** "Where's the party at?" Google reviews are stale. Users want to know which bars and restaurants are actually busy *right now* — not which ones had a good review 6 months ago. Users currently have to hop bar to bar just to find the one that's actually crowded.
+
+> **Opportunity:** HingeX already collects user geo-location data for Nearby Now. That same data can power a real-time heat map showing where people are congregating — a Waze-style crowd density map for nightlife. This becomes a **third pillar differentiator** and a **future revenue engine** (bar/restaurant advertising).
+
+> **Data source: Internal only.** No third-party APIs. The Vibe Map is powered entirely by HingeX users' own rough GPS data (already being collected for Nearby Now). This is a Waze-like internal feature — the value scales with the user base.
+
+> **MVP1 approach:** Ship a **simulated** Vibe Map for investor demos. Seed heat dots in known nightlife districts (East Village, WeHo, etc.) using realistic patterns. The simulation validates the UX and the value prop. Real user-powered data goes live in Phase II when user density supports it (target: 3+ users per H3 cell in active nightlife areas).
+
+> **Cold start reality:** At <5K users in a city, real density data will be sparse. Strategy: concentrate launch in 1 neighborhood first to hit critical density faster. The simulated MVP1 buys time.
+
+#### MVP1 — Simulated Vibe Map (~2-3 days)
+*Ships with MVP1 for investor demo.*
+
+| Aspect | Detail |
+|--------|--------|
+| **What users see** | Map view with colored heat dots in known nightlife districts. Warmer colors = more activity. Looks and feels like the real Vibe Map. |
+| **Data source** | **Seeded/simulated** — realistic dot patterns in popular bar zones (East Village, LES, WeHo, Santa Monica). Patterns vary by time of day and day of week to feel authentic. |
+| **Map SDK** | Google Maps SDK for iOS/Android — **completely free**, no usage caps. Heatmap via utility library (`HeatmapTileProvider` on Android / `GMUHeatmapTileLayer` on iOS). |
+| **Access** | Visible to all users (demo feature). Premium-gated in Phase II when real data goes live. |
+| **Build effort** | ~2-3 days (map view + heatmap overlay + seeded data JSON + time-of-day logic) |
+| **Infra cost** | Google Maps mobile SDK: **$0**. Seeded data: static JSON, no API cost. |
+| **Purpose** | Validate UX, gather user feedback on the concept, show investors the vision is tangible. |
+
+---
+
+#### Option S — "Vibe Map" — Real User-Powered Heat Dots (~1 sprint)
+*Candidate for: Phase II*
+
+| Aspect | Detail |
+|--------|--------|
+| **What users see** | Map view with colored dots showing where HingeX users are actually concentrated. 1 dot = 3+ users in a cluster. Warmer colors = more people. |
+| **Data source** | **Internal only** — your own geo-location data (already collected for Nearby Now). No third-party APIs. |
+| **Map SDK** | Google Maps SDK for iOS/Android — **completely free**, no usage caps. Heatmap via utility library (`HeatmapTileProvider` on Android / `GMUHeatmapTileLayer` on iOS). |
+| **Privacy** | k-anonymity: **minimum 3 users** in a cell before showing a dot. Never show a dot for 1-2 people. H3 resolution 9 (~174m cells). Dots are approximate, not exact positions. |
+| **Access** | Premium feature (paid users only). Free users see Nearby Now list only. |
+| **Cold start strategy** | Concentrate launch in 1 neighborhood. Transition from simulated (MVP1) to real data when a zone consistently has 3+ active users during peak hours. Blend: show real dots where data exists, fade out gracefully where it doesn't. |
+| **Update frequency** | Refreshes every 10 min (matches existing location polling interval). |
+| **Infra cost** | Google Maps mobile SDK: **$0**. PostGIS aggregation: negligible (already running). |
+| **Build effort** | ~1 sprint (aggregation query + H3 cell grouping + privacy threshold + transition from simulated data) |
+
+**Technical architecture:**
+```
+Existing location polling (every 10 min)
+  → user_locations table (PostGIS)
+  → Aggregate into H3 hex-9 cells
+  → Filter: only show cells with >= 3 users (k-anonymity)
+  → Weight by user count
+  → Send weighted lat/lng array to client
+  → Client renders via Google Maps heatmap utility library
+```
+
+**Why it works:** Zero additional data collection needed — piggybacks on existing Nearby Now location data. Google Maps mobile SDK is free. No third-party dependency. Premium-only access creates monetization lever. The value scales directly with user growth — a built-in network effect.
+
+---
+
+#### Option M — "Vibe Map + Venue Cards" — See what's nearby & what's happening (~2 sprints)
+*Candidate for: Phase III*
+
+Everything in Option S, plus:
+
+| Aspect | Detail |
+|--------|--------|
+| **Venue overlay** | Tap a hot zone → see venue cards (bar name, rating, hours, "seems busy" / "packed" / "quiet"). Powered by **Google Places API** + **Foursquare Places API** (free 10K calls/mo). |
+| **Deal cards** | Merchants can post deals (happy hour, specials) via a self-service portal. Shown as pins on the Vibe Map. |
+| **Social signal** | "5 HingeX users here now" badge on venue card. Only shows if 3+ users present at that venue (privacy). |
+| **Push nudges** | Geofenced notifications for active users: *"A bar 0.3 mi from you has 12 people — head that way?"* |
+| **Venue busyness labels** | Instead of precise numbers, use fuzzy labels: "Quiet" / "Getting busy" / "Packed" / "At capacity" — more forgiving of small sample sizes. |
+| **Merchant self-service** | Simple web portal: create account → claim venue → post deals → view impressions. |
+
+**Revenue model:**
+
+| Model | Price | Effort |
+|-------|-------|--------|
+| **Promoted listings** | $50-200/mo per merchant — highlighted pin + priority placement | Low — sort/display change |
+| **Geofenced push** | $0.05-0.25 per notification delivered to nearby users | Medium — notification infrastructure |
+| **Featured deal cards** | $100-500/mo for premium placement in deal feed/map | Low — display logic |
+
+**Infra cost:** Google Places API: ~$17/1K calls (queries on tap only, not passive). Foursquare: free tier covers early scale. Merchant portal: standard CRUD app.
+
+**Why it works:** Venue cards give context to the dots. Deal cards create a reason for bars to engage (and pay). Push nudges drive foot traffic — which is exactly what bars want to buy. The "5 HingeX users here" social signal is something Google Maps can never offer.
+
+---
+
+#### Option L — "Vibe Map + AR Overlay + Nightlife Marketplace" (~4-6 sprints)
+*Candidate for: Phase IV+*
+
+Everything in Option M, plus:
+
+| Aspect | Detail |
+|--------|--------|
+| **AR camera view** | Point phone at a street → see floating deal cards anchored to real bar locations. *"🍺 $5 margaritas until 8pm"* hovering over the bar entrance. Uses **ARKit geo-anchors** (iOS) / **ARCore Geospatial API** (Android). |
+| **Live venue vibe** | Short video clips (10-sec, Atmosfy-style) uploaded by users showing the energy inside. *"See the vibe before you walk in."* |
+| **Merchant dashboard** | Full self-service: create deals, view impressions/clicks/visits, analytics on foot traffic driven by HingeX. |
+| **Visit verification** | Detect when a user enters a venue after seeing a deal → charge merchant per verified visit (CPV model). |
+| **Crew coordination** | "Your crew is heading to [Bar X] — join them?" Ties into Crew Mode (see 13.1 Option L). |
+
+**Revenue models (layered):**
+
+| Model | Price | Effort |
+|-------|-------|--------|
+| **CPC deal clicks** | $1-3 per click on deal detail | Medium — click tracking + billing |
+| **CPV verified visits** | $5-15 per verified foot traffic visit | High — visit verification |
+| **Commission on redemptions** | 10-20% of deal value when redeemed | High — redemption tracking |
+| **Sponsored AR experiences** | $500-2K per campaign (custom branded AR overlays) | Very high — custom AR content |
+
+**Data moat — why this is defensible:**
+Your app uniquely knows:
+- Where users are **right now** (real-time location)
+- Where users **tend to go** (historical patterns)
+- **When** users go out (activity patterns)
+- **Who** users go out with (social graph from matches/crews)
+
+No other platform — not Google, not Yelp, not Atabarra — has this combination for the nightlife vertical. A bar owner pays a premium to reach *"people who are out right now, within walking distance, looking for somewhere to go"* vs. generic mobile ad impressions.
+
+**AR technical notes:**
+- ARKit geo-anchors require iOS 14+, A12 chip+, and Apple's location anchor coverage (major US cities covered)
+- ARCore Geospatial API uses Google's Visual Positioning System (Street View imagery) — free, covers most urban areas
+- Both SDKs are free. The cost is in building content creation tools and the AR UX.
+- **Recommendation:** Build map-based deals first (Option M). Add AR as a "wow factor" layer once the merchant pipeline is established. AR without deals to show is an empty gimmick.
+
+**Infra cost:** ARKit/ARCore SDKs: free. Venue data APIs: ~$100-300/mo. Merchant portal + dashboard dev: significant. Video hosting (if vibe clips): ~$50-100/mo at scale.
+
+---
+
+**Lessons from failed apps in this space:**
+- **SceneTap** (cameras in bars to count patrons) — shut down after ACLU backlash and patron boycotts. Lesson: don't use invasive tracking.
+- **BarPeak → Atmosfy** — pivoted from busyness data to video reviews. Lesson: busyness data alone isn't compelling enough; layer social/visual content on top.
+- **Foursquare check-ins** — check-in fatigue killed the consumer product (shut down Dec 2024). Lesson: passive data beats manual check-ins.
+- **Google Maps Popular Times** — works because of 3B+ Android devices. Lesson: you can't out-Google Google on raw data; compete on social context and deals instead.
+
+**Recommendation:** Ship Option S in Phase II (heat dots are ~1 sprint on top of existing geo infra). Option M in Phase III adds the revenue engine (merchant deals). Option L is the long-term vision — AR + marketplace — but only after proving merchant demand with Option M.
