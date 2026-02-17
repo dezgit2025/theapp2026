@@ -90,9 +90,9 @@ Needs controls (block/report), privacy, and safer identity options.
 ## 4) Key User Journeys
 
 ### J1: Signup → Profile → First Like
-1. Phone verify  
-2. Age gate 18+  
-3. Choose City/Metro (NYC or SoCal) + Mode (Friends/Dating/Both)  
+1. Sign up via **Google SSO** or email + password (email verification link sent)
+2. Age gate 18+ (DOB + consent)
+3. Choose City/Metro (NYC or SoCal) + Mode (Friends/Dating/Both)
 4. Build profile (2-3 photos + quote + emoji activity)
 5. Grant location permission (required for geo-movement matching)
 6. Go out — app detects movement and shows Nearby Now feed
@@ -128,17 +128,27 @@ Needs controls (block/report), privacy, and safer identity options.
 ## 5) MVP1 Scope (P0 Features)
 
 ### 5.1 Onboarding & Identity
-- Phone verification (required)
-- Age gate 18+ (required)
+
+**Authentication (one of):**
+- **Email + password** (email verification required — confirmation link)
+- **Google SSO** (OAuth 2.0 — fastest path, auto-verifies email)
+- Phone verification (SMS OTP) as optional add-on, not required for signup
+
+**Required gates:**
+- Age gate **18+** (DOB entry + consent checkbox — required, cannot proceed without it)
 - City/Metro selection (NYC or SoCal)
 - Mode selection: Friends / Dating / Both
 - Location permission grant (required — core to geo-movement matching)
-- Basic preferences:
-  - **Proximity radius** (default: 1 mile, configurable: 0.5 / 1 / 2 / 5 miles)
-  - Age range
-  - Gender/orientation (for dating logic)
 
-**Acceptance:** user cannot enter discovery without verification + minimum profile completeness.
+**Basic preferences:**
+- **Proximity radius** (default: 1 mile, configurable: 0.5 / 1 / 2 / 5 miles)
+- Age range
+- Gender/orientation (for dating logic)
+
+**Acceptance:** user cannot enter discovery without:
+1. Verified email (via email link or Google SSO) **AND**
+2. Age 18+ consent **AND**
+3. Minimum profile completeness (2 photos + quote + emoji activity)
 
 ---
 
@@ -729,7 +739,7 @@ CREATE TABLE company_domains (
 ### Phase I — MVP1 (2 sprints) | Bootstrapped / Pre-seed
 
 #### Sprint 1 — Core loop + Geo-Movement
-- Auth + age gate + mode selection + **location permission**
+- Auth (Google SSO + email/password with verification) + age gate 18+ + mode selection + **location permission**
 - Profile builder (2-3 photos + quote + emoji activity) + minimum completeness gate
 - **Location service**: POST endpoint, `user_locations` table with PostGIS, spatial index
 - **Movement detection**: server-side displacement calculation
